@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steel Creation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        color: #333;
+      }
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .form-input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .form-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .form-button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Steel Properties Search</h1>
+    <form id="searchForm">
+      <div class="form-group">
+        <label for="yield_strength" class="form-label">Yield Strength:</label>
+        <input
+          type="number"
+          id="yield_strength"
+          name="yield_strength"
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="uts" class="form-label"
+          >Ultimate Tensile Strength (UTS):</label
+        >
+        <input type="number" id="uts" name="uts" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="elongation" class="form-label">Elongation:</label>
+        <input
+          type="number"
+          id="elongation"
+          name="elongation"
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="reduction_area" class="form-label"
+          >Reduction in Area:</label
+        >
+        <input
+          type="number"
+          id="reduction_area"
+          name="reduction_area"
+          class="form-input"
+        />
+      </div>
+      <input type="submit" value="Predict" />
+    </form>
+    <div id="predictionResults"></div>
+
+    <script src="prediction_two.js"></script>
+  </body>
+</html>

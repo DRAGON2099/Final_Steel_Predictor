@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Excel Data Validator</title>
+    <style>
+      /* Style for the button */
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff; /* Blue color */
+        color: #fff; /* White text */
+        text-decoration: none; /* Remove underline */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Cursor style */
+        font-size: 16px; /* Font size */
+      }
+
+      /* Hover effect for the button */
+      .button:hover {
+        background-color: #0056b3; /* Darker blue color on hover */
+      }
+    </style>
+    <!-- Include SheetJS library for Excel file processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
+  </head>
+  <body>
+    <h1>Excel Data Validator</h1>
+    <h2>
+      Please click on "Proceed with Data Analytics" only after ensuring your
+      excel data is readable.
+    </h2>
+    <input type="file" id="excelFileInput" accept=".xlsx" />
+    <button id="readButton">Read Excel Sheet</button>
+    <h2>Button Link to Another HTML File</h2>
+    <!-- Use a div container for styling -->
+    <div>
+      <a href="data_list_options.html" target="_blank" class="button"
+        >Proceed with Data Analytics</a
+      >
+    </div>
+    <div id="fieldsList"></div>
+    <div id="validationMessage"></div>
+    <div id="invalidDataList"></div>
+
+    <script>
+      // Function to read Excel file and display fields
+      function readExcelFile(file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var data = new Uint8Array(e.target.result);
+          var workbook = XLSX.read(data, { type: "array" });
+          var sheetName = workbook.SheetNames[0];
+          var sheet = workbook.Sheets[sheetName];
+          var headers = XLSX.utils.sheet_to_json(sheet, { header: 1 })[0];
+          var validationMessage = document.getElementById("validationMessage");
+          var invalidDataList = document.getElementById("invalidDataList");
+          invalidDataList.innerHTML = ""; // Clear previous invalid data list
+
+          // Display list of fields
+          var fieldsList = document.getElementById("fieldsList");
+          fieldsList.innerHTML = "<strong>Fields in Excel Sheet:</strong><br>";
+          headers.forEach(function (header) {
+            var fieldItem = document.createElement("div");
+            fieldItem.textContent = header;
+            fieldsList.appendChild(fieldItem);
+          });
+
+          // Validate all values are readable and collect invalid data
+          var invalidData = [];
+          XLSX.utils.sheet_to_json(sheet).forEach(function (row, rowIndex) {
+            Object.entries(row).forEach(function ([key, value]) {
+              if (typeof value !== "string" && !isNumeric(value)) {
+                invalidData.push({
+                  cell: `${key}${rowIndex + 2}`,
+                  value: value,
+                });
+              }
+            });
+          });
+
+          if (invalidData.length === 0) {
+            validationMessage.textContent =
+              "All values in the Excel sheet are readable.";
+          } else {
+            validationMessage.textContent =
+              "Some values in the Excel sheet are not readable. Please check the data.";
+            invalidDataList.innerHTML = "<strong>Invalid Data:</strong><br>";
+            invalidData.forEach(function (data) {
+              var invalidItem = document.createElement("div");
+              invalidItem.textContent = `Cell ${data.cell}: ${data.value}`;
+              invalidDataList.appendChild(invalidItem);
+            });
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      // Event listener for file input change
+      document
+        .getElementById("excelFileInput")
+        .addEventListener("change", function (e) {
+          var file = e.target.files[0];
+          readExcelFile(file);
+        });
+
+      // Event listener for read button click (optional)
+      document
+        .getElementById("readButton")
+        .addEventListener("click", function () {
+          var fileInput = document.getElementById("excelFileInput");
+          if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+            readExcelFile(file);
+          } else {
+            alert("Please select an Excel file.");
+          }
+        });
+
+      // Function to check if a value is numeric
+      function isNumeric(value) {
+        return !isNaN(parseFloat(value)) && isFinite(value);
+      }
+    </script>
+  </body>
+</html>

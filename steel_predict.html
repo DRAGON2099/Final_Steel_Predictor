@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steel Prediction</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+      #predictionResults {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Steel Prediction</h1>
+    <h2>
+      <bold
+        >Please enter the values of the following elements in order to predict
+        steels that you are interested in:</bold
+      >
+    </h2>
+    <form id="predictionForm">
+      <label for="carbonPercent">Carbon Percent:</label>
+      <input
+        type="number"
+        id="carbonPercent"
+        name="carbonPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="chromiumPercent">Chromium Percent:</label>
+      <input
+        type="number"
+        id="chromiumPercent"
+        name="chromiumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="aluminiumPercent">Aluminium Percent:</label>
+      <input
+        type="number"
+        id="aluminiumPercent"
+        name="aluminiumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="manganesePercent">Manganese Percent:</label>
+      <input
+        type="number"
+        id="manganesePercent"
+        name="manganesePercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="siliconPercent">Silicon Percent:</label>
+      <input
+        type="number"
+        id="siliconPercent"
+        name="siliconPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="nickelPercent">Nickel Percent:</label>
+      <input
+        type="number"
+        id="nickelPercent"
+        name="nickelPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="cobaltPercent">Cobalt Percent:</label>
+      <input
+        type="number"
+        id="cobaltPercent"
+        name="cobaltPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="molybdenumPercent">Molybdenum Percent:</label>
+      <input
+        type="number"
+        id="molybdenumPercent"
+        name="molybdenumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="tungstenPercent">Tungsten Percent:</label>
+      <input
+        type="number"
+        id="tungstenPercent"
+        name="tungstenPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="niobiumPercent">Niobium Percent:</label>
+      <input
+        type="number"
+        id="niobiumPercent"
+        name="niobiumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="phosphorousPercent">Phosphorous Percent:</label>
+      <input
+        type="number"
+        id="phosphorousPercent"
+        name="phosphorousPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="copperPercent">Copper Percent:</label>
+      <input
+        type="number"
+        id="copperPercent"
+        name="copperPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="titaniumPercent">Titanium Percent:</label>
+      <input
+        type="number"
+        id="titaniumPercent"
+        name="titaniumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="tantalumPercent">Tantalum Percent:</label>
+      <input
+        type="number"
+        id="tantalumPercent"
+        name="tantalumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="hafniumPercent">Hafnium Percent:</label>
+      <input
+        type="number"
+        id="hafniumPercent"
+        name="hafniumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="rheniumPercent">Rhenium Percent:</label>
+      <input
+        type="number"
+        id="rheniumPercent"
+        name="rheniumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="vanadiumPercent">Vanadium Percent:</label>
+      <input
+        type="number"
+        id="vanadiumPercent"
+        name="vanadiumPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="boronPercent">Boron Percent:</label>
+      <input
+        type="number"
+        id="boronPercent"
+        name="boronPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="nitrogenPercent">Nitrogen Percent:</label>
+      <input
+        type="number"
+        id="nitrogenPercent"
+        name="nitrogenPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="oxygenPercent">Oxygen Percent:</label>
+      <input
+        type="number"
+        id="oxygenPercent"
+        name="oxygenPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <label for="sulphurPercent">Sulphur Percent:</label>
+      <input
+        type="number"
+        id="sulphurPercent"
+        name="sulphurPercent"
+        step="0.01"
+        value="0"
+      /><br /><br />
+
+      <input type="submit" value="Predict" />
+    </form>
+
+    <div id="predictionResults"></div>
+
+    <script src="prediction.js"></script>
+  </body>
+</html>
