@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload and Plot Excel Data</title>
+    <!-- Include Plotly.js library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Include XLSX library for Excel file processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
+    <style>
+      /* CSS for loading indicator */
+      #loadingIndicator {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      #loadingText {
+        text-align: center;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      /* CSS for individual plot containers */
+      .plotContainer {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Upload and Plot Excel Data</h1>
+    <input type="file" id="excelFileInput" accept=".xlsx" />
+    <div id="plotContainer"></div>
+    <div id="loadingIndicator">
+      <div id="loadingText">Loading...</div>
+    </div>
+
+    <script>
+      document
+        .getElementById("excelFileInput")
+        .addEventListener("change", handleFileSelect, false);
+
+      function handleFileSelect(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+          const fields = Object.keys(jsonData[0]);
+
+          // Show loading indicator
+          const loadingIndicator = document.getElementById("loadingIndicator");
+          loadingIndicator.style.display = "block";
+
+          setTimeout(() => {
+            const plotContainer = document.getElementById("plotContainer");
+            plotContainer.innerHTML = ""; // Clear previous plots
+
+            for (let i = 0; i < fields.length; i++) {
+              for (let j = i + 1; j < fields.length; j++) {
+                const xData = jsonData.map((row) => row[fields[i]]);
+                const yData = jsonData.map((row) => row[fields[j]]);
+
+                // Filter out non-numeric values
+                const validIndices = [];
+                for (let k = 0; k < xData.length; k++) {
+                  if (!isNaN(xData[k]) && !isNaN(yData[k])) {
+                    validIndices.push(k);
+                  }
+                }
+                const filteredXData = validIndices.map((index) => xData[index]);
+                const filteredYData = validIndices.map((index) => yData[index]);
+
+                const trace = {
+                  x: filteredXData,
+                  y: filteredYData,
+                  mode: "markers",
+                  type: "scatter",
+                  name: `${fields[i]} vs ${fields[j]}`,
+                };
+
+                const layout = {
+                  title: `${fields[i]} vs ${fields[j]} Scatter Plot`,
+                  xaxis: { title: fields[i] },
+                  yaxis: { title: fields[j] },
+                };
+
+                // Calculate average value
+                const averageX =
+                  filteredXData.reduce((acc, val) => acc + val, 0) /
+                  filteredXData.length;
+                const averageY =
+                  filteredYData.reduce((acc, val) => acc + val, 0) /
+                  filteredYData.length;
+
+                // Add reference line and average value to the layout
+                layout.shapes = [
+                  {
+                    type: "line",
+                    x0: Math.min(...filteredXData),
+                    y0: Math.min(...filteredYData),
+                    x1: Math.max(...filteredXData),
+                    y1: Math.max(...filteredYData),
+                    line: {
+                      color: "red",
+                      width: 2,
+                      dash: "solid",
+                    },
+                  },
+                ];
+                layout.annotations = [
+                  {
+                    x: averageX,
+                    y: averageY,
+                    xref: "x",
+                    yref: "y",
+                    text: `Average (${averageX.toFixed(2)}, ${averageY.toFixed(
+                      2
+                    )})`,
+                    showarrow: true,
+                    arrowhead: 7,
+                    ax: 0,
+                    ay: -40,
+                  },
+                ];
+
+                const newPlotDiv = document.createElement("div");
+                newPlotDiv.className = "plotContainer";
+                newPlotDiv.style.width = "800px"; // Adjust width as needed
+                newPlotDiv.style.height = "400px"; // Adjust height as needed
+                plotContainer.appendChild(newPlotDiv);
+
+                Plotly.newPlot(newPlotDiv, [trace], layout);
+              }
+            }
+
+            // Hide loading indicator after plots are generated
+            loadingIndicator.style.display = "none";
+          }, 1000); // Simulating delay for demonstration (1 second)
+        };
+
+        reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
+      }
+    </script>
+  </body>
+</html>
