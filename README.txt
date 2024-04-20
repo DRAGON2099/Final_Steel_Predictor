@@ -10,3 +10,12 @@ In order to Run/Execute the Code :-
 The Application has files for User Authentication, Login etc in order to turn it into a commercial app in the future as well.
 
 Feel free to run html files and experiment with the order to link other files and experiment with the order the website works.
+
+University Data Comparison :- 
+
+1) "Sample id."     C	    Mn	  S	    P	      Si    UTS  Elongation
+     Walzen C-30   0.26	  1.37	0.005	0.0018	0.14  916  8
+
+Predicted Values :- 
+
+UTS -
